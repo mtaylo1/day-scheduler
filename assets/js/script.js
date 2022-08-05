@@ -1,15 +1,16 @@
 var $currentDay = $("#currentDay");
-var $blocksTime = $(".block-time");
-var $schedule = $(".schedule");
+var $blocksTime = $(".time-block");
+var $scheduleSet = $(".schedule");
 
 var toDoStuff = [];
 
 //creating an hour and text property for each item
 
-var currentDate = moment().format("dddd, MMMM do");
+var currentDate = moment().format("dddd, MMMM Do");
 var currentHour = moment().format("H");
 
 function initializeSchedule(){
+     console.log(toDoStuff);
 
     $blocksTime.each(function(){
         var $thisBlock = $(this);
@@ -25,24 +26,25 @@ function initializeSchedule(){
         });
 
         localStorage.setItem("todos", JSON.stringify(toDoStuff));
-
+          console.log(toDoStuff);
     }
 
-function timeBlocks(){
+function timeBlocksSetup(){
     $blocksTime.each(function(){
         var $thisBlock = $(this);
         var thisBlockHr = parseInt($thisBlock.attr("data-hour"));
 
-        if (thisblockHr == currentHour) {
+        if (thisBlockHr == currentHour) {
             $thisBlock.addClass("present").removeClass("past future");
 
         }
 
-        if (thisblockHr == currentHour) {
+        if (thisBlockHr < currentHour) {
             $thisBlock.addClass("past").removeClass("present future");
 
         }
-        if (thisblockHr == currentHour) {
+
+        if (thisBlockHr > currentHour) {
             $thisBlock.addClass("future").removeClass("past present");
 
         }
@@ -52,6 +54,7 @@ function timeBlocks(){
 
 
 function makeSchedule(){
+    
     toDoStuff = localStorage.getItem("todos");
     toDoStuff = JSON.parse(toDoStuff);
 
@@ -73,25 +76,26 @@ function saveItem(){
 
     var thingToAdd = (($(this).parent()).children("textarea")).val();
 
-    for (var i = 0; i < toDoItems.length; i++){
-        if (toDoStuff[i].hour == hourToUpdate){
-            toDoStuff[i].text = thingToAdd;     
+    for (var j = 0; j < toDoStuff.length; j++){
+        if (toDoStuff[j].hour == hourToUpdate){
+
+          toDoStuff[j].text = thingToAdd;
         }
-    localStorage.setItem("todos",JSON.stringify(toDoStuff));
-    makeSchedule();
+      }
+      localStorage.setItem("todos", JSON.stringify(toDoStuff));
+      makeSchedule();
     }
 
     $(document).ready(function(){
 
-        timeBlocks();
+        timeBlocksSetup();
 
-        if(!localStorage.getitem("todos")){
+        if(!localStorage.getItem("todos")){
             initializeSchedule();
         }
 
         $currentDay.text(currentDate);
         makeSchedule();
-        $schedule.on("click", "button", saveItem);
+        $scheduleSet.on("click", "button", saveItem);
 
     });
-}
