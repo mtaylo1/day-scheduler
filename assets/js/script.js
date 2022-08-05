@@ -4,7 +4,6 @@ var $scheduleSet = $(".schedule");
 
 var toDoStuff = [];
 
-//creating an hour and text property for each item
 
 var currentDate = moment().format("dddd, MMMM Do");
 var currentHour = moment().format("H");
@@ -26,7 +25,6 @@ function initializeSchedule(){
         });
 
         localStorage.setItem("todos", JSON.stringify(toDoStuff));
-          console.log(toDoStuff);
     }
 
 function timeBlocksSetup(){
@@ -66,7 +64,6 @@ function makeSchedule(){
 
     }
 
-    console.log(toDoStuff);
 }
 
 function saveItem(){
