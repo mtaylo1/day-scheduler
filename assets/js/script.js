@@ -4,10 +4,11 @@ var $scheduleSet = $(".schedule");
 
 var toDoStuff = [];
 
-
+//using Moment.js to set date and time
 var currentDate = moment().format("dddd, MMMM Do");
 var currentHour = moment().format("H");
 
+//create schedule, saves schedule items in localstorage
 function initializeSchedule(){
      console.log(toDoStuff);
 
@@ -23,10 +24,11 @@ function initializeSchedule(){
 
         toDoStuff.push(todoObj);
         });
-
+    //saves array via stringify
         localStorage.setItem("todos", JSON.stringify(toDoStuff));
     }
 
+    //supposed to colour code blocks based on past, future and present
 function timeBlocksSetup(){
     $blocksTime.each(function(){
         var $thisBlock = $(this);
@@ -50,6 +52,7 @@ function timeBlocksSetup(){
 
 }
 
+//grabs todo stuff via array. Applies text to timeblock
 
 function makeSchedule(){
     
@@ -93,6 +96,7 @@ function saveItem(){
 
         $currentDay.text(currentDate);
         makeSchedule();
+        //Saves toDoStuff after click 
         $scheduleSet.on("click", "button", saveItem);
 
     });
